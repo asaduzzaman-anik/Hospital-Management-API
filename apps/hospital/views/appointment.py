@@ -20,7 +20,9 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['doctor', 'patient', 'appointment_date', 'status']
-
+    ordering_fields = ['appointment_date','created_at']
+    ordering = ['-appointment_date']
+    
     def get_queryset(self):
         user = self.request.user
         queryset = self.queryset
@@ -61,3 +63,4 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         appointment.status = Appointment.Status.COMPLETED
         appointment.save()
         return Response(self.get_serializer(appointment).data)
+    

@@ -14,10 +14,15 @@ class DoctorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminReceptionistOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['department', 'is_available']
-    search_fields = ['user__first_name', 'user__last_name', 'specialization', 'phone']
+    search_fields = ['user__first_name', 'user__last_name', 'specialization', 'department__name']
+    ordering_fields = ['experience','specialization']
+    ordering = ['id']
 
     @action(detail=False, methods=['get'])
     def available(self, request):
         doctors = self.get_queryset().filter(is_available=True)
         serializer = self.get_serializer(doctors, many=True)
         return Response(serializer.data)
+    
+    
+

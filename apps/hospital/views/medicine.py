@@ -10,4 +10,4 @@ class MedicineViewSet(viewsets.ModelViewSet):
     serializer_class = MedicineSerializer
     permission_classes = [IsAdminReceptionistOrReadOnly]
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name', 'unit']
+    search_fields = ['name', 'description']

@@ -14,6 +14,7 @@ class BillViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['patient', 'paid']
+    ordering_fields = ['amount','created_at']
 
     def get_queryset(self):
         user = self.request.user
@@ -30,3 +31,5 @@ class BillViewSet(viewsets.ModelViewSet):
         bill.paid = True
         bill.save()
         return Response(self.get_serializer(bill).data)
+    
+    
