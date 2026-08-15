@@ -9,7 +9,8 @@ A comprehensive Hospital Management System built with Django REST Framework (DRF
   - Roles supported: `Admin`, `Doctor`, `Patient`, and `Receptionist`.
 - **Department Management**: Complete CRUD operations for hospital departments.
 - **Doctor Management**: Manage doctor profiles, specializations, experiences, availability status, and assign them to departments.
-- **Patient Management**: Profile details including age, gender, blood group, phone, and address.
+- **Patient Management**: Profile details including age, gender, blood group, phone, and address. Patients may create and update their own profile; Admin/Receptionist manage all patient records.
+- **CORS**: Allows the React frontend (`http://localhost:5173` / `http://127.0.0.1:5173`) to call this API.
 - **Appointment System**: Schedule and manage patient appointments with doctors.
   - Automatic assignment of patient profile for patient-logged users.
   - Custom status transitions (`pending`, `approved`, `completed`, `cancelled`).
@@ -40,17 +41,25 @@ A comprehensive Hospital Management System built with Django REST Framework (DRF
    pip install -r requirements.txt
    ```
 
-4. **Run migrations**
+4. **Create a `.env` file** in the project root:
+   ```env
+   SECRET_KEY=your-secret-key
+   DEBUG=True
+   ALLOWED_HOSTS=127.0.0.1,localhost
+   CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+   ```
+
+5. **Run migrations**
    ```bash
    python manage.py migrate
    ```
 
-5. **Run the development server**
+6. **Run the development server**
    ```bash
    python manage.py runserver
    ```
 
-6. **Create a superuser (optional)**
+7. **Create a superuser (optional)**
    ```bash
    python manage.py createsuperuser
    ```
@@ -82,7 +91,7 @@ All primary resources are exposed under the `/api/v1/` prefix.
 | **User Registration** | `/api/v1/users/` | `POST` (Register), `GET`, `PUT`, `DELETE` | `POST`: Anyone<br>Other methods: Authenticated |
 | **Departments** | `/api/v1/departments/` | `GET`, `POST`, `PUT`, `DELETE` | `GET`: Authenticated<br>Write (`POST`/`PUT`/`DELETE`): Admin |
 | **Doctors** | `/api/v1/doctors/` | `GET`, `POST`, `PUT`, `DELETE` | `GET`: Authenticated<br>Write: Admin, Receptionist |
-| **Patients** | `/api/v1/patients/` | `GET`, `POST`, `PUT`, `DELETE` | `GET`: Authenticated<br>Write: Admin, Receptionist |
+| **Patients** | `/api/v1/patients/` | `GET`, `POST`, `PUT`, `DELETE` | `GET`: Authenticated<br>Write: Admin, Receptionist<br>Patients: create/update own profile only |
 | **Appointments** | `/api/v1/appointments/` | `GET`, `POST`, `PUT`, `DELETE` | **Role-Filtered** (Patients see their own; Doctors see theirs; Admins/Receptionists see all) |
 | **Medicines** | `/api/v1/medicines/` | `GET`, `POST`, `PUT`, `DELETE` | `GET`: Authenticated<br>Write: Admin, Receptionist |
 | **Prescriptions** | `/api/v1/prescriptions/` | `GET`, `POST`, `PUT`, `DELETE` | **Role-Filtered** (Patients see their own; Doctors see theirs; Admins/Receptionists see all) |

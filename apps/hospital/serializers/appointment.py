@@ -23,6 +23,9 @@ class AppointmentSerializer(serializers.ModelSerializer):
             'created_at',
         ]
         read_only_fields = ['created_at']
+        extra_kwargs = {
+            'patient': {'required': False},
+        }
 
     def validate_appointment_date(self, value):
         if value < timezone.now():
