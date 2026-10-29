@@ -4,11 +4,11 @@ __pycache__/
 
 db.sqlite3
 
+.env
 
 media/
 
 .idea/
+.vscode/
 
 *.log
-config.bat
-node_modules
